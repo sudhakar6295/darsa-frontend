@@ -42,6 +42,7 @@
     </style>
 </head>
 <body>
+    
     <div>
         <div class="container">
             <div class="image-container">
@@ -51,11 +52,22 @@
             <div class="content-container">
                 <h2>Product Information</h2>
                 <p>Product Name: {{ product.nombreProducto }}</p>
-                <p>Price: {{ product.precio }}</p>
+                <p>SKU: {{ product.sku }}</p>
+                <p>Price: <span id="calculatedPrice"></span> + IVA</p>
                 <p>Description: {{ product.descripcionCorta }}</p>
             </div>
         </div>
         <a href="{% url 'home' %}" class="home-link">Back to Home</a>
     </div>
+    <script>
+        // Calculate the price using JavaScript
+        // Assuming product.precio is in CLP (Chilean Peso)
+        // and 1.19 is the tax rate
+        var precio = {{ product.precio }};
+        var calculatedPrice = (precio / 1.19)/1000;
+        
+        // Display the calculated price on the page
+        document.getElementById('calculatedPrice').textContent = calculatedPrice.toFixed(2); // Format to two decimal places
+    </script>
 </body>
 </html>

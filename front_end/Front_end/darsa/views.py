@@ -31,8 +31,16 @@ def home(request, page):
 def search(request):
     query = request.GET.get('query')
     items = read_data()
-    items = [item for item in items if query.lower() in item['nombreProducto'].lower()]
-    return render(request, 'home.html', {'items': items, 'page': items})
+    filtered_items = []
+    
+    if query:
+        for item in items:
+            if query.lower() in item['nombreProducto'].lower() or query.lower() == item['sku'].lower():
+                filtered_items.append(item)
+    else:
+        filtered_items = items
+    
+    return render(request, 'home.html', {'items': filtered_items, 'page': filtered_items})
 
 
 
