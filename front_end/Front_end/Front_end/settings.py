@@ -25,8 +25,6 @@ SECRET_KEY = 'django-insecure-vs(41g!+)fjipc$-56#@d%8l4k-s=hbsn_ep1s!m%fe=ac_-##
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -37,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'darsa',
+    'ds',
 ]
 
 MIDDLEWARE = [
@@ -74,28 +72,15 @@ WSGI_APPLICATION = 'Front_end.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEBUG:
 
-   DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'dsprodi',
             'USER': 'dsprodi',
             'PASSWORD': 'u30sicdu2SjR',
             'HOST': 'localhost',   # Or the IP address of your MySQL server
-            'PORT': '22222',        # Default MySQL port
-        }
-    }
-else:
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'dsprodi',
-            'USER': 'dsprodi',
-            'PASSWORD': 'u30sicdu2SjR',
-            'HOST': 'localhost',   # Or the IP address of your MySQL server
-            'PORT': '22222',        # Default MySQL port
+            #'PORT': '22222',        # Default MySQL port
         }
     }
 
@@ -147,6 +132,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-if not DEBUG:
-   ALLOWED_HOSTS = ['ds.prodigiodata.com','127.0.0.1:8000','103.114.211.242','170.239.84.29']
+
+ALLOWED_HOSTS = ['ds.prodigiodata.com','127.0.0.1','103.114.211.242','170.239.84.29','www.ds.prodigiodata.com']
 

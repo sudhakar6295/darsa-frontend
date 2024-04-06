@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+
+{% block title %}Home - eCommerce{% endblock %}
+
+{% block content %}
+<section id="categories">
+    <h2>Shop by Category</h2>
+    <div class="row">
+        <!-- Loop through categories fetched from the database -->
+        {% for category in categories %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ category }}</h5>
+                        
+                        <a href="{% url 'home' %}" class="btn btn-primary">View Products</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="featured-products">
+    <h2>Featured Products</h2>
+    <div class="row">
+        <!-- Loop through featured products fetched from the database -->
+        {% for product in featured_products %}
+            <div class="col-md-4">
+                <div class="product">
+                    <img src="{{ product.image_url }}" alt="{{ product.name }}" class="img-fluid">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p>Price: ${{ product.price }}</p>
+                    <button class="btn btn-primary">Add to Cart</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ product.nombreProducto }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <header>
+        <h1>Welcome to Our eCommerce Store</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            border: 1px solid #ccc; /* Add border */
+            margin: 20px; /* Add margin for spacing */
+            padding: 10px; /* Add padding for spacing */
+        }
+        .image-container {
+            flex: 1;
+        }
+        .content-container {
+            flex: 1;
+            padding: 0 20px; /* Adjust padding as needed */
+        }
+        .content-container h2 {
+            margin-top: 0; /* Remove default margin */
+        }
+        .product-image {
+            max-width: 200px; /* Set maximum width */
+            max-height: 200px; /* Set maximum height */
+            width: auto; /* Maintain aspect ratio */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Ensure image does not overflow container */
+            margin: 0 auto; /* Center the image horizontally */
+            border: 1px solid #ddd; /* Add border for image */
+            border-radius: 5px; /* Add border-radius for rounded corners */
+        }
+        .home-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+        }
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        /* Add custom styles for image previews */
+        .preview-images {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .preview-images img {
+            width: 50px;
+            height: 50px;
+            margin: 0 5px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+        .preview-images img:hover {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div>
+        <div class="container">
+            <div class="image-container">
+                <div id="productImages" class="product-images">
+                    <!-- Main image -->
+                    <img id="mainImage" class="product-image" src="{% static 'images/' %}{{ product.img }}" alt="Product Image">
+                </div>
+                <!-- Arrow marks for navigation -->
+                <a class="prev" onclick="showPrevImage()">&#10094;</a>
+                <a class="next" onclick="showNextImage()">&#10095;</a>
+            </div>
+            <div class="preview-images">
+                <!-- Image previews -->
+                {% for image in product.additional_images %}
+                    <img class="preview" src="{% static 'images/' %}{{ image }}" alt="Preview Image" onclick="displayImage('{{ image }}')">
+                {% endfor %}
+            </div>
+            <div class="content-container">
+                <h2>Product Information</h2>
+                <p>Product Name: {{ product.nombreProducto }}</p>
+                <p>SKU: {{ product.sku }}</p>
+                <p>Price: <span id="calculatedPrice"></span> + IVA</p>
+                <p>Description: {{ product.descripcionCorta }}</p>
+            </div>
+        </div>
+        <a href="{% url 'home' %}" class="home-link">Back to Home</a>
+    </div>
+    <script>
+        // Calculate the price using JavaScript
+        // Assuming product.precio is in CLP (Chilean Peso)
+        // and 1.19 is the tax rate
+        var precio = {{ product.precio }};
+        var calculatedPrice = (precio / 1.19);
+        
+        // Display the calculated price on the page
+        document.getElementById('calculatedPrice').textContent = calculatedPrice.toFixed(2); // Format to two decimal places
+    </script>
+<script>
+    var mainImage = document.getElementById('mainImage');
+    var previewImages = document.querySelectorAll('.preview');
+
+    // Function to display the clicked image
+    function displayImage(image) {
+        mainImage.src = "{% static 'images/' %}" + image;
+        previewImages.forEach(function(preview) {
+            if (preview.src.endsWith(image)) {
+                preview.classList.add('selected');
+            } else {
+                preview.classList.remove('selected');
+            }
+        });
+    }
+
+    // Function to show the previous image
+    function showPrevImage() {
+        var currentIndex = Array.from(previewImages).findIndex(function(preview) {
+            return preview.classList.contains('selected');
+        });
+        var newIndex = (currentIndex - 1 + previewImages.length) % previewImages.length;
+        displayImage(previewImages[newIndex].getAttribute('data-image'));
+    }
+
+    // Function to show the next image
+    function showNextImage() {
+        var currentIndex = Array.from(previewImages).findIndex(function(preview) {
+            return preview.classList.contains('selected');
+        });
+        var newIndex = (currentIndex + 1) % previewImages.length;
+        displayImage(previewImages[newIndex].getAttribute('data-image'));
+    }
+</script>
+
+</body>
+</html>
