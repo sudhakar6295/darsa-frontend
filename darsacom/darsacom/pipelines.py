@@ -7,6 +7,7 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 import mysql.connector
+import datetime
 from mysql.connector import IntegrityError
 
 
@@ -19,10 +20,8 @@ class MySQLPipeline:
     def create_connection(self):
         self.conn=mysql.connector.connect(
             host='localhost',
-            #user='dsprodi',
-            user='sudhakar',
-            passwd='sudhakar',
-                    #Kn0jZM7Wixen5oru
+            user='dsprodi',
+            passwd='u30sicdu2SjR',
             database='dsprodi',
             
 
@@ -108,6 +107,16 @@ class MySQLPipeline:
                                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
                             """)
+        
+        self.curr.execute("""DROP TABLE IF EXISTS Images""") 
+
+        self.curr.execute("""  CREATE TABLE `Images` (
+                                `id` int NOT NULL,
+                                `images` varchar(255) DEFAULT NULL
+                                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+                            """)
+
 
 
 
@@ -118,7 +127,12 @@ class MySQLPipeline:
         return item
 
     def store_db(self,item):
+            
+            
 
+            item_id = item.get('id')
+            images = item.get('images')
+            del item['images']
 
             sql_query = """
                     INSERT INTO Products (
@@ -130,7 +144,7 @@ class MySQLPipeline:
                         delivery, idProveedor, idioma, tag, meta_title, meta_description, actionStore, currencyBasePrice,
                         saleDecimal, criticalStock, idCategoria, tipoVenta, cantidadLote, precioUnitario, rechazoProducto,
                         publicado, created_at, updated_at, deleted_at, published_at, centry_id, cat_id, cat_nombre,
-                        cat_alias, cat_ruta, cat_img, cat_banner, marca
+                        cat_alias, cat_ruta, cat_img, cat_banner, marca, category
                     )
                     VALUES (
                         %(id)s, %(id_erp)s, %(idMarca)s, %(seller_id)s, %(sku)s, %(nombreProducto)s, %(modelo)s, %(dimension)s, %(peso)s, %(peso_volumetrico)s,
@@ -141,7 +155,7 @@ class MySQLPipeline:
                         %(delivery)s, %(idProveedor)s, %(idioma)s, %(tag)s, %(meta_title)s, %(meta_description)s, %(actionStore)s, %(currencyBasePrice)s,
                         %(saleDecimal)s, %(criticalStock)s, %(idCategoria)s, %(tipoVenta)s, %(cantidadLote)s, %(precioUnitario)s, %(rechazoProducto)s,
                         %(publicado)s, %(created_at)s, %(updated_at)s, %(deleted_at)s, %(published_at)s, %(centry_id)s, %(cat_id)s, %(cat_nombre)s,
-                        %(cat_alias)s, %(cat_ruta)s, %(cat_img)s, %(cat_banner)s, %(marca)s
+                        %(cat_alias)s, %(cat_ruta)s, %(cat_img)s, %(cat_banner)s, %(marca)s, %(category)s
                     )
                 """
             
@@ -226,9 +240,25 @@ class MySQLPipeline:
                         cat_ruta = %(cat_ruta)s,
                         cat_img = %(cat_img)s,
                         cat_banner = %(cat_banner)s,
-                        marca = %(marca)s
+                        marca = %(marca)s,
+                        updated_date = %(updated_date)s,
+                        category = %(category)s
                     WHERE id = %(id)s
                 """
+                current_time = datetime.datetime.now()
+
+                # Format the current time as required (YYYY-MM-DD HH:MM:SS)
+                formatted_time = current_time.strftime('%Y-%m-%d %H:%M:%S')
+                item['updated_date'] = formatted_time
                 self.curr.execute(update_query, item)
                 # Commit the transaction after updating the record
                 self.conn.commit()
+
+            
+            for image in images:
+                try:
+                    self.curr.execute("INSERT INTO Images (id,image) VALUES (%s,%s)", (item_id,image))
+                    self.conn.commit()  
+                except Exception as e:
+                    pass
+

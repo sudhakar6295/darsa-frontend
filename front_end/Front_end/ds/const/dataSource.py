@@ -33,6 +33,7 @@ def read_products_data(ruta):
     
 def read_categories():
     with connection.cursor() as cursor:
-        cursor.execute("SELECT distinct cat_nombre  FROM Products")
+        cursor.execute("SELECT distinct category  FROM Products")
         categories = [col[0] for col in cursor.fetchall()]
+        categories = [x for x in categories if x is not None]
         return categories

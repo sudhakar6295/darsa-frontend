@@ -9,9 +9,6 @@
 
 import os
 
-from Front_end.settings import BASE_DIR
-
-
 BOT_NAME = "darsacom"
 
 SPIDER_MODULES = ["darsacom.spiders"]
@@ -101,9 +98,6 @@ ITEM_PIPELINES = {
     'darsacom.pipelines.MySQLPipeline': 300,
 }
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
 
 
 
