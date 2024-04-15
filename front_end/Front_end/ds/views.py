@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from ds.const.dataSource import read_data,read_products_data,read_categories
+from ds.const.dataSource import read_data,read_products_data,read_categories,read_data_full
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import redirect
 
@@ -31,7 +31,7 @@ def home(request, page ,category=None):
 
 def search(request):
     query = request.GET.get('query')
-    items = read_data()
+    items = read_data_full()
     filtered_items = []
     
     if query:

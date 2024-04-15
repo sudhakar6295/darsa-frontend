@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-vs(41g!+)fjipc$-56#@d%8l4k-s=hbsn_ep1s!m%fe=ac_-##'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 # Application definition
@@ -80,7 +80,7 @@ DATABASES = {
             'USER': 'dsprodi',
             'PASSWORD': 'u30sicdu2SjR',
             'HOST': 'localhost',   # Or the IP address of your MySQL server
-            #'PORT': '22222',        # Default MySQL port
+            'PORT': '22222',        # Default MySQL port
         }
     }
 

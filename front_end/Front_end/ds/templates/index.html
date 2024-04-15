@@ -8,10 +8,17 @@
     
     <!-- Custom CSS -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/index_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+    <div class="search-bar">
+        <!-- Search Form -->
+        <form action="{% url 'search' %}" method="GET">
+            <input type="text" name="query" placeholder="Search by SKU or name">
+            <button type="submit">Search</button>
+        </form>
+    </div>
     <header>
         <h1>Welcome to Our eCommerce Store</h1>
         <nav>

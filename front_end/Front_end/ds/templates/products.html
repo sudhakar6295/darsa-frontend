@@ -7,11 +7,7 @@
     
     <header>
         <h1>Welcome to Our eCommerce Store</h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'index' %}">Home</a></li>
-            </ul>
-        </nav>
+        
     </header>
     <style>
         body {
@@ -88,6 +84,14 @@
 
     </style>
 </head>
+<div class="breadcrumbs">
+    <ul>
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <!-- Add additional breadcrumb links here if needed -->
+        <li><a href="{% url 'home' product.category%}">{{ product.category}} </a></li>
+        <li>{{ product.nombreProducto }}</li> <!-- Current page -->
+    </ul>
+</div>
 <body>
     
     <div>
@@ -115,7 +119,7 @@
                 <p>Description: {{ product.descripcionCorta }}</p>
             </div>
         </div>
-        <a href="{% url 'home' %}" class="home-link">Back to Home</a>
+        <a href="{% url 'index' %}" class="home-link">Back to Home</a>
     </div>
     <script>
         // Calculate the price using JavaScript

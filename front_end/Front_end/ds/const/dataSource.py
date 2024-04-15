@@ -3,7 +3,14 @@ from django.db import connection
 
 def read_data(category):
     with connection.cursor() as cursor:
-        cursor.execute("SELECT nombreProducto,ruta,precio,sku,img FROM Products where cat_nombre = %s", [category])
+        cursor.execute("SELECT nombreProducto,ruta,precio,sku,img FROM Products where category = %s", [category])
+        columns = [col[0] for col in cursor.description]
+        data = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        return data
+
+def read_data_full():
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT nombreProducto,ruta,precio,sku,img FROM Products ")
         columns = [col[0] for col in cursor.description]
         data = [dict(zip(columns, row)) for row in cursor.fetchall()]
         return data

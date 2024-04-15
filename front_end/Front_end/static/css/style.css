@@ -6,16 +6,6 @@ body {
     padding: 0;
 }
 
-header {
-    display: flex;
-    justify-content: space-between; /* Aligns items to each end of the flex container */
-    align-items: center; /* Centers items vertically */
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
-    position: relative; /* Add position relative for absolute positioning of search bar */
-}
 
 .search-bar {
     position: absolute;
@@ -104,4 +94,40 @@ main {
     border-radius: 50%; /* Makes the image circular */
     border: 1px solid #ccc; /* Add a border for better visibility */
     margin-right: 10px; /* Optional: Add some space between the image and text */
+}
+.breadcrumbs {
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+.breadcrumbs {
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.breadcrumbs ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.breadcrumbs li {
+    display: inline;
+    margin-right: 5px;
+}
+.breadcrumbs li:not(:last-child):after {
+    content: '›';
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.breadcrumbs li a {
+    color: #555;
+    text-decoration: none;
+}
+.breadcrumbs li a:hover {
+    text-decoration: underline;
 }
